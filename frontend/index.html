@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Inventory Audit Panel - Critical Inventory Synchronization Module
+    </title>
+    <meta
+      name="description"
+      content="Comprehensive inventory audit panel for tracking stock movements and changes"
+    />
+    <meta
+      name="keywords"
+      content="inventory, stock, audit, synchronization, reporting"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>Loading inventory data...</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-content">
+          <h1 class="main-title">
+            <i class="icon-inventory"></i>
+            Inventory Audit Panel
+          </h1>
+          <p class="subtitle">Critical Inventory Synchronization Module</p>
+          <div class="header-stats">
+            <div class="stat-card">
+              <span class="stat-number" id="totalLogs">0</span>
+              <span class="stat-label">Total Logs</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number" id="todayChanges">0</span>
+              <span class="stat-label">Today's Changes</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Filters Section -->
+      <section class="filters-section">
+        <div class="filters-container">
+          <h2 class="section-title">
+            <i class="icon-filter"></i>
+            Filters & Search
+          </h2>
+
+          <form id="filtersForm" class="filters-form">
+            <div class="filter-group">
+              <label for="productId">Product ID</label>
+              <input
+                type="number"
+                id="productId"
+                name="product_id"
+                placeholder="Enter Product ID"
+                min="1"
+              />
+            </div>
+
+            <div class="filter-group">
+              <label for="dateFrom">From Date</label>
+              <input type="date" id="dateFrom" name="date_from" />
+            </div>
+
+            <div class="filter-group">
+              <label for="dateTo">To Date</label>
+              <input type="date" id="dateTo" name="date_to" />
+            </div>
+
+            <div class="filter-group">
+              <label for="userSource">User/Source</label>
+              <input
+                type="text"
+                id="userSource"
+                name="user_source"
+                placeholder="Filter by user or source"
+              />
+            </div>
+
+            <div class="filter-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="icon-search"></i>
+                Apply Filters
+              </button>
+              <button type="button" id="clearFilters" class="btn btn-secondary">
+                <i class="icon-clear"></i>
+                Clear All
+              </button>
+              <button type="button" id="refreshData" class="btn btn-accent">
+                <i class="icon-refresh"></i>
+                Refresh
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section class="quick-actions">
+        <div class="actions-container">
+          <h3>Quick Actions</h3>
+          <div class="actions-grid">
+            <button id="exportCsv" class="action-btn">
+              <i class="icon-download"></i>
+              Export CSV
+            </button>
+            <button id="viewStats" class="action-btn">
+              <i class="icon-stats"></i>
+              View Statistics
+            </button>
+            <button id="testApi" class="action-btn">
+              <i class="icon-test"></i>
+              Test API Connection
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="results-section">
+        <div class="results-header">
+          <h2 class="section-title">
+            <i class="icon-list"></i>
+            Inventory Movement Logs
+          </h2>
+          <div class="results-meta">
+            <span id="resultsCount">Loading...</span>
+            <div class="view-options">
+              <button id="toggleView" class="btn btn-small">
+                <i class="icon-grid"></i>
+                Card View
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none">
+          <i class="icon-warning"></i>
+          <span id="errorText">An error occurred while loading data.</span>
+          <button id="retryLoad" class="btn btn-small">Retry</button>
+        </div>
+
+        <!-- Table View -->
+        <div id="tableView" class="table-container">
+          <table id="logsTable" class="logs-table">
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="id">ID</th>
+                <th class="sortable" data-sort="created_at">Date & Time</th>
+                <th class="sortable" data-sort="product_name">Product</th>
+                <th class="text-right">Previous Stock</th>
+                <th class="text-right">New Stock</th>
+                <th class="text-center">Change</th>
+                <th class="sortable" data-sort="user_source">Source</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="logsTableBody">
+              <!-- Data will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Card View -->
+        <div id="cardView" class="cards-container" style="display: none">
+          <!-- Cards will be populated by JavaScript -->
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination-container">
+          <!-- Pagination will be populated by JavaScript -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Modal for Statistics -->
+    <div id="statsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Inventory Statistics</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="statsContent">
+          <!-- Statistics content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Product Details -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Product Details</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="productContent">
+          <!-- Product details will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/pagination.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Initialize App -->
+    <script>
+      $(document).ready(function () {
+        InventoryApp.init();
+      });
+    </script>
+  </body>
+</html>

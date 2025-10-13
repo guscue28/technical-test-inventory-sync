@@ -1,0 +1,241 @@
+# =====================================================
+# Critical Inventory Synchronization Module
+# Git Ignore Configuration
+# =====================================================
+
+# =====================================================
+# IDE and Editor Files
+# =====================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# =====================================================
+# Laravel Backend
+# =====================================================
+backend/.env
+backend/.env.backup
+backend/.env.production
+backend/.phpunit.result.cache
+backend/Homestead.json
+backend/Homestead.yaml
+backend/auth.json
+backend/npm-debug.log
+backend/yarn-error.log
+
+# Backend Dependencies
+backend/vendor/
+backend/node_modules/
+
+# Backend Storage
+backend/storage/*.key
+backend/storage/app/*
+!backend/storage/app/.gitignore
+backend/storage/framework/cache/*
+!backend/storage/framework/cache/.gitignore
+backend/storage/framework/sessions/*
+!backend/storage/framework/sessions/.gitignore
+backend/storage/framework/testing/*
+!backend/storage/framework/testing/.gitignore
+backend/storage/framework/views/*
+!backend/storage/framework/views/.gitignore
+backend/storage/logs/*
+!backend/storage/logs/.gitignore
+
+# Backend Build
+backend/public/hot
+backend/public/storage
+backend/public/css/app.css
+backend/public/js/app.js
+backend/public/mix-manifest.json
+
+# =====================================================
+# Frontend
+# =====================================================
+
+# Frontend Dependencies
+frontend/node_modules/
+frontend/bower_components/
+
+# Frontend Build
+frontend/dist/
+frontend/build/
+frontend/.tmp/
+frontend/.sass-cache/
+
+# Frontend Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# =====================================================
+# Database
+# =====================================================
+*.sqlite
+*.sqlite3
+*.db
+
+# Database Exports and Backups
+database/dumps/
+database/backups/
+*.sql.gz
+backup_*.sql
+
+# =====================================================
+# Testing
+# =====================================================
+
+# Test Results
+/coverage/
+/.nyc_output
+/phpunit.xml
+/coverage.xml
+/clover.xml
+/.phpunit.cache/
+
+# Test Databases
+/tests/database.sqlite
+/tests/_temp/
+
+# =====================================================
+# Logs and Temporary Files
+# =====================================================
+
+# Application Logs
+*.log
+logs/
+log/
+
+# Temporary Files
+/tmp/
+/temp/
+*.tmp
+*.temp
+
+# =====================================================
+# OS Generated Files
+# =====================================================
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Linux
+*~
+
+# =====================================================
+# Development Tools
+# =====================================================
+
+# Composer
+composer.phar
+/vendor/
+composer.lock
+
+# NPM/Yarn
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# =====================================================
+# Production and Deployment
+# =====================================================
+
+# Environment Files
+.env.production
+.env.staging
+.env.local
+
+# SSL Certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# Deployment Scripts
+deploy.sh
+deploy.php
+
+# =====================================================
+# CMS Integration Specific
+# =====================================================
+
+# WordPress
+cms-integration/wordpress/wp-config.php
+cms-integration/wordpress/uploads/
+cms-integration/wordpress/cache/
+
+# PrestaShop
+cms-integration/prestashop/config/
+cms-integration/prestashop/cache/
+cms-integration/prestashop/img/
+cms-integration/prestashop/upload/
+
+# =====================================================
+# Documentation Build
+# =====================================================
+docs/_build/
+docs/.doctrees/
+site/
+
+# =====================================================
+# Performance and Monitoring
+# =====================================================
+
+# Performance Reports
+/storage/debugbar/
+/storage/clockwork/
+*.prof
+
+# =====================================================
+# Security
+# =====================================================
+
+# Sensitive Files
+*.key
+*.pem
+.htpasswd
+auth.json
+
+# Configuration Files with Secrets
+config/secrets.php
+config/keys.php
+
+# =====================================================
+# Project Specific
+# =====================================================
+
+# Custom Configuration
+config/local.php
+config/development.php
+
+# User Uploads
+public/uploads/
+storage/uploads/
+
+# Generated Assets
+public/css/compiled/
+public/js/compiled/
+
+# API Documentation
+/api-docs/
+/swagger-ui/
+
+# =====================================================
+# Backup Files
+# =====================================================
+*.bak
+*.backup
+*.old
+*.orig

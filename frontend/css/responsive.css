@@ -1,0 +1,458 @@
+/* =====================================================
+   Responsive Styles for Inventory Audit Panel
+   Mobile-first approach with CSS Grid and Flexbox
+   ===================================================== */
+
+/* Mobile First Base Styles (320px+) */
+@media (max-width: 768px) {
+  /* Container adjustments */
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  /* Header responsive */
+  .header {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .main-title {
+    font-size: 1.75rem;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .header-stats {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-md);
+  }
+
+  .stat-card {
+    min-width: unset;
+    padding: var(--spacing-md);
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  /* Section adjustments */
+  .filters-section,
+  .quick-actions,
+  .results-section {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  /* Filters responsive */
+  .filters-form {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .filter-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+  }
+
+  /* Quick actions responsive */
+  .actions-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  /* Results header responsive */
+  .results-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .results-meta {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  /* Table responsive - horizontal scroll */
+  .table-container {
+    margin: 0 calc(-1 * var(--spacing-lg));
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .logs-table {
+    min-width: 800px; /* Ensure table doesn't collapse */
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: var(--spacing-sm);
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  /* Hide some columns on very small screens */
+  .logs-table th:nth-child(1), /* ID */
+    .logs-table td:nth-child(1),
+    .logs-table th:nth-child(7), /* Source */
+    .logs-table td:nth-child(7) {
+    display: none;
+  }
+
+  /* Pagination responsive */
+  .pagination-container {
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .pagination-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.75rem;
+  }
+
+  .pagination-info {
+    width: 100%;
+    text-align: center;
+    margin: var(--spacing-sm) 0;
+  }
+
+  /* Modal responsive */
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+    max-height: 85vh;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: var(--spacing-lg);
+  }
+
+  /* Loading overlay text */
+  .loading-overlay p {
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+/* Tablet Styles (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: var(--spacing-lg);
+  }
+
+  /* Header adjustments */
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .header-stats {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  /* Filters - 2 columns on tablet */
+  .filters-form {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .filter-actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Quick actions - 2 columns */
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Results responsive */
+  .results-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  /* Table adjustments */
+  .logs-table th,
+  .logs-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
+/* Desktop Styles (1025px+) */
+@media (min-width: 1025px) {
+  /* Filters - 3-4 columns on desktop */
+  .filters-form {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Quick actions - 3 columns */
+  .actions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Table full features */
+  .logs-table th,
+  .logs-table td {
+    padding: var(--spacing-md);
+  }
+
+  /* Show all table columns */
+  .logs-table th,
+  .logs-table td {
+    display: table-cell;
+  }
+}
+
+/* Large Desktop Styles (1400px+) */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1600px;
+  }
+
+  /* Larger spacing on very large screens */
+  .header {
+    padding: var(--spacing-2xl) var(--spacing-xl);
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  /* Filters - up to 5 columns on very large screens */
+  .filters-form {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide interactive elements */
+  .filters-section,
+  .quick-actions,
+  .pagination-container,
+  .btn,
+  .action-btn,
+  .modal {
+    display: none !important;
+  }
+
+  /* Optimize table for printing */
+  .table-container {
+    overflow: visible;
+    border: 1px solid #000;
+  }
+
+  .logs-table {
+    font-size: 10px;
+  }
+
+  .logs-table th {
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Page breaks */
+  .results-section {
+    page-break-inside: avoid;
+  }
+
+  .logs-table tr {
+    page-break-inside: avoid;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --primary-color: #000080;
+    --gray-200: #000000;
+    --gray-300: #404040;
+    --gray-500: #606060;
+  }
+
+  .btn-primary {
+    border: 2px solid #000000;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    border: 1px solid #000000;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .loading-spinner {
+    animation: none;
+    border: 4px solid var(--gray-400);
+  }
+}
+
+/* Dark Mode Support (if user prefers) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white: #1e293b;
+    --gray-50: #0f172a;
+    --gray-100: #1e293b;
+    --gray-200: #334155;
+    --gray-300: #475569;
+    --gray-800: #f1f5f9;
+    --gray-900: #ffffff;
+  }
+
+  body {
+    background-color: var(--gray-50);
+    color: var(--gray-900);
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  }
+
+  .logs-table tbody tr:hover {
+    background: var(--gray-200);
+  }
+}
+
+/* Landscape Phone Specific */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .main-title {
+    font-size: 1.5rem;
+  }
+
+  .header-stats {
+    margin-top: var(--spacing-md);
+  }
+
+  .stat-card {
+    padding: var(--spacing-sm);
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
+
+  .section-title {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .filters-section,
+  .quick-actions,
+  .results-section {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Ultra-wide screens (21:9 aspect ratio and wider) */
+@media screen and (min-aspect-ratio: 21/9) {
+  .container {
+    max-width: 1800px;
+  }
+
+  .filters-form {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .actions-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets */
+  .btn {
+    min-height: 44px;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .action-btn {
+    min-height: 48px;
+  }
+
+  .filter-group input {
+    min-height: 44px;
+    padding: var(--spacing-md);
+  }
+
+  .pagination-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .modal-close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Remove hover effects */
+  .btn:hover,
+  .action-btn:hover,
+  .logs-table th.sortable:hover,
+  .logs-table tbody tr:hover {
+    transform: none;
+    background: initial;
+  }
+}
