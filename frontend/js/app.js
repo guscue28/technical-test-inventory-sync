@@ -432,11 +432,6 @@ window.InventoryApp = (function ($) {
                     <td class="text-center">
                         <span class="${changeClass}">${changeText}</span>
                     </td>
-                    <td>
-                        <span class="badge badge-gray">${escapeHtml(
-                          log.user_source
-                        )}</span>
-                    </td>
                     <td class="text-center">
                         <div class="action-buttons">
                             <button class="btn btn-small btn-primary edit-btn" data-product-id="${
@@ -567,8 +562,25 @@ window.InventoryApp = (function ($) {
       $("#resultsCount").text(`Showing ${from} to ${to} of ${total} entries`);
     }
 
-    // Get today's changes (this would need additional API call in real implementation)
-    $("#todayChanges").text("--");
+    // Get today's changes (fetch from API)
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    api
+      .getInventoryStatistics(todayStr, todayStr)
+      .then(function (response) {
+        if (response && response.success && response.data) {
+          $("#todayChanges").text(response.data.total_logs || 0);
+        } else {
+          $("#todayChanges").text("0");
+        }
+      })
+      .catch(function () {
+        $("#todayChanges").text("0");
+      });
   }
 
   /**
@@ -754,6 +766,9 @@ window.InventoryApp = (function ($) {
       $("#refreshData")
         .html('<i class="icon-refresh"></i> Refresh Products')
         .attr("title", "Reload product data from the server");
+
+      // Cambiar texto del label de estadísticas
+      $(".stat-label").first().text("Total Products");
     } else {
       // Update button texts for Logs tab
       $("#filtersForm button[type='submit']")
@@ -773,6 +788,9 @@ window.InventoryApp = (function ($) {
       $("#refreshData")
         .html('<i class="icon-refresh"></i> Refresh Logs')
         .attr("title", "Reload inventory log data from the server");
+
+      // Cambiar texto del label de estadísticas
+      $(".stat-label").first().text("Total Logs");
     }
   }
 

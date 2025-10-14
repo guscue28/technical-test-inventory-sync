@@ -392,7 +392,7 @@ body {
   background: var(--gray-50);
   border: 2px solid var(--gray-200);
   border-radius: var(--radius-md);
-  color: var(--gray-700);
+  color: white;
   text-decoration: none;
   font-weight: 500;
   transition: all var(--transition-fast);
@@ -452,7 +452,7 @@ body {
 .logs-table th {
   background: var(--gray-50);
   padding: var(--spacing-md);
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: var(--gray-700);
   border-bottom: 2px solid var(--gray-200);
@@ -473,6 +473,7 @@ body {
   padding: var(--spacing-md);
   border-bottom: 1px solid var(--gray-200);
   vertical-align: middle;
+  text-align: center;
 }
 
 .logs-table tbody tr:hover {
