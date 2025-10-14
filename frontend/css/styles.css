@@ -277,7 +277,7 @@ body {
 
 .btn-primary {
   background: var(--primary-color);
-  color: var(--white);
+  color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -297,16 +297,68 @@ body {
 
 .btn-accent {
   background: var(--accent-color);
-  color: var(--white);
+  color: white;
 }
 
 .btn-accent:hover:not(:disabled) {
   background: #047857;
 }
 
+.btn-danger {
+  background: var(--danger-color);
+  color: var(--white);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
 .btn-small {
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: 0.75rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.action-buttons .btn {
+  min-width: 32px;
+  min-height: 32px;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.action-buttons .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons .btn:active {
+  transform: translateY(0);
+}
+
+.action-buttons .edit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.action-buttons .view-btn:hover {
+  background-color: #059669;
+}
+
+.action-buttons .delete-btn:hover {
+  background-color: #dc2626;
 }
 
 /* Quick Actions */
@@ -327,9 +379,9 @@ body {
 }
 
 .actions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .action-btn {
@@ -705,4 +757,42 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+  background: var(--white);
+  color: var(--gray-800);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--gray-200);
+  margin-top: var(--spacing-lg);
 }

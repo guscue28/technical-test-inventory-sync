@@ -354,6 +354,41 @@ window.InventoryAPI = (function ($) {
     },
 
     /**
+     * Create new product
+     */
+    createProduct: function (productData) {
+      return makeRequest({
+        url: config.API.ENDPOINTS.PRODUCTS,
+        method: "POST",
+        data: productData,
+        useCache: false,
+      });
+    },
+
+    /**
+     * Update existing product
+     */
+    updateProduct: function (productId, productData) {
+      return makeRequest({
+        url: `${config.API.ENDPOINTS.PRODUCTS}/${productId}`,
+        method: "PUT",
+        data: productData,
+        useCache: false,
+      });
+    },
+
+    /**
+     * Delete product
+     */
+    deleteProduct: function (productId) {
+      return makeRequest({
+        url: `${config.API.ENDPOINTS.PRODUCTS}/${productId}`,
+        method: "DELETE",
+        useCache: false,
+      });
+    },
+
+    /**
      * Clear cache
      */
     clearCache: function () {

@@ -70,6 +70,9 @@ window.InventoryApp = (function ($) {
     });
 
     // Quick actions
+    $("#createProduct").on("click", function () {
+      InventoryApp.createProduct();
+    });
     $("#exportCsv").on("click", function () {
       InventoryApp.exportToCsv();
     });
@@ -82,6 +85,9 @@ window.InventoryApp = (function ($) {
     $("#toggleView").on("click", function () {
       InventoryApp.toggleTableView();
     });
+
+    // Edit product form submission
+    $("#editProductForm").on("submit", handleProductFormSubmit);
 
     // Modal close buttons
     $(".modal-close").on("click", function () {
@@ -102,6 +108,28 @@ window.InventoryApp = (function ($) {
     $(".logs-table th.sortable").on("click", function () {
       const column = $(this).data("sort");
       sortTable(column);
+    });
+
+    // Product action buttons (using event delegation)
+    $(document).on("click", ".edit-btn", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const productId = $(this).data("product-id");
+      InventoryApp.editProduct(productId);
+    });
+
+    $(document).on("click", ".view-btn", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const productId = $(this).data("product-id");
+      InventoryApp.viewProductDetails(productId);
+    });
+
+    $(document).on("click", ".delete-btn", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const productId = $(this).data("product-id");
+      InventoryApp.deleteProduct(productId);
     });
 
     // Keyboard shortcuts
@@ -303,11 +331,23 @@ window.InventoryApp = (function ($) {
                         )}</span>
                     </td>
                     <td class="text-center">
-                        <button class="btn btn-small" onclick="InventoryApp.viewProductDetails(${
-                          log.product_id
-                        })">
-                            View
-                        </button>
+                        <div class="action-buttons">
+                            <button class="btn btn-small btn-primary edit-btn" data-product-id="${
+                              log.product_id
+                            }" title="Edit Product">
+                                ✏️
+                            </button>
+                            <button class="btn btn-small btn-accent view-btn" data-product-id="${
+                              log.product_id
+                            }" title="View Details">
+                                👁️
+                            </button>
+                            <button class="btn btn-small btn-danger delete-btn" data-product-id="${
+                              log.product_id
+                            }" title="Delete Product">
+                                🗑️
+                            </button>
+                        </div>
                     </td>
                 </tr>
             `;
@@ -547,6 +587,154 @@ window.InventoryApp = (function ($) {
     updateTableVisibility();
   }
 
+  /**
+   * Load product data for editing
+   */
+  function loadProductForEdit(productId) {
+    console.log("Loading product for edit:", productId);
+
+    if (!productId) {
+      showNotification("Invalid product ID", "error");
+      return;
+    }
+
+    showLoading(true);
+
+    api
+      .getProduct(productId)
+      .then(function (response) {
+        console.log("Product data received:", response);
+        if (response.success && response.data) {
+          const product = response.data;
+          populateEditForm(product);
+          $("#editModalTitle").text("Edit Product");
+          $("#saveButtonText").text("Save Changes");
+          $("#editProductModal").fadeIn(300);
+        } else {
+          showNotification("Failed to load product data", "error");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error loading product:", error);
+        const processedError = api.processError(error);
+        showNotification(processedError.message, "error");
+      })
+      .finally(function () {
+        showLoading(false);
+      });
+  }
+
+  /**
+   * Open modal for creating new product
+   */
+  function openCreateProductModal() {
+    clearEditForm();
+    $("#editModalTitle").text("Create New Product");
+    $("#saveButtonText").text("Create Product");
+    $("#editProductModal").fadeIn(300);
+  }
+
+  /**
+   * Populate edit form with product data
+   */
+  function populateEditForm(product) {
+    console.log("Populating form with product:", product);
+    $("#editProductId").val(product.id);
+    $("#editProductName").val(product.name);
+    $("#editProductReference").val(product.reference || "");
+    $("#editProductStock").val(product.current_stock || product.stock || 0);
+  }
+
+  /**
+   * Clear edit form
+   */
+  function clearEditForm() {
+    $("#editProductForm")[0].reset();
+    $("#editProductId").val("");
+  }
+
+  /**
+   * Handle form submission for create/edit product
+   */
+  function handleProductFormSubmit(event) {
+    event.preventDefault();
+
+    const productId = $("#editProductId").val();
+    const formData = {
+      name: $("#editProductName").val(),
+      reference: $("#editProductReference").val(),
+      stock: parseInt($("#editProductStock").val()),
+    };
+
+    const isEdit = productId !== "";
+    showLoading(true);
+
+    const apiCall = isEdit
+      ? api.updateProduct(productId, formData)
+      : api.createProduct(formData);
+
+    apiCall
+      .then(function (response) {
+        if (response.success) {
+          showNotification(
+            isEdit
+              ? "Product updated successfully"
+              : "Product created successfully",
+            "success"
+          );
+          $("#editProductModal").fadeOut(300);
+          loadInventoryData(true); // Refresh the table
+        } else {
+          showNotification(response.message || "Operation failed", "error");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error saving product:", error);
+        const processedError = api.processError(error);
+        showNotification(processedError.message, "error");
+      })
+      .finally(function () {
+        showLoading(false);
+      });
+  }
+
+  /**
+   * Delete product by ID
+   */
+  function deleteProductById(productId) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this product? This action cannot be undone."
+      )
+    ) {
+      return;
+    }
+
+    showLoading(true);
+
+    api
+      .deleteProduct(productId)
+      .then(function (response) {
+        if (response.success) {
+          showNotification("Product deleted successfully", "success");
+          loadInventoryData(true); // Refresh the table
+        } else {
+          showNotification(
+            response.message || "Failed to delete product",
+            "error"
+          );
+        }
+      })
+      .catch(function (error) {
+        console.error("Error deleting product:", error);
+        const processedError = api.processError(error);
+        showNotification(processedError.message, "error");
+      })
+      .finally(function () {
+        showLoading(false);
+      });
+  }
+
   function updateTableVisibility() {
     const width = $(window).width();
     const columns = $(".logs-table th, .logs-table td");
@@ -631,6 +819,22 @@ window.InventoryApp = (function ($) {
 
     closeModals: function () {
       $(".modal").fadeOut(300);
+    },
+
+    closeEditModal: function () {
+      $("#editProductModal").fadeOut(300);
+    },
+
+    editProduct: function (productId) {
+      loadProductForEdit(productId);
+    },
+
+    createProduct: function () {
+      openCreateProductModal();
+    },
+
+    deleteProduct: function (productId) {
+      deleteProductById(productId);
     },
 
     showNotification: function (message, type = "info") {
