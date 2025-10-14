@@ -18,7 +18,7 @@ class InventoryLogRepository
     /**
      * Get filtered inventory logs with pagination
      */
-    public function getFilteredLogs(array $filters = [], int $perPage = 50): LengthAwarePaginator
+    public function getFilteredLogs(array $filters = [], int $perPage = 10): LengthAwarePaginator
     {
         $query = $this->model->with('product')
                             ->orderBy('created_at', 'desc');

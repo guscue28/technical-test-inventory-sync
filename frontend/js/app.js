@@ -18,6 +18,14 @@ window.InventoryApp = (function ($) {
   let autoRefreshTimer = null;
 
   /**
+   * Local notification function
+   */
+  function showNotification(message, type = "info") {
+    console.log(`${type.toUpperCase()}: ${message}`);
+    // For now, just log to console. Can be enhanced later.
+  }
+
+  /**
    * Initialize the application
    */
   function init() {
@@ -62,13 +70,23 @@ window.InventoryApp = (function ($) {
     });
 
     // Quick actions
-    $("#exportCsv").on("click", exportToCsv);
-    $("#viewStats").on("click", showStatistics);
-    $("#testApi").on("click", testApiConnection);
-    $("#toggleView").on("click", toggleTableView);
+    $("#exportCsv").on("click", function () {
+      InventoryApp.exportToCsv();
+    });
+    $("#viewStats").on("click", function () {
+      InventoryApp.showStatistics();
+    });
+    $("#testApi").on("click", function () {
+      InventoryApp.testApiConnection();
+    });
+    $("#toggleView").on("click", function () {
+      InventoryApp.toggleTableView();
+    });
 
     // Modal close buttons
-    $(".modal-close").on("click", closeModals);
+    $(".modal-close").on("click", function () {
+      InventoryApp.closeModals();
+    });
     $(".modal").on("click", function (e) {
       if (e.target === this) {
         closeModals();
@@ -149,7 +167,7 @@ window.InventoryApp = (function ($) {
     }
 
     return api
-      .getInventoryLogs(currentFilters, currentPage, config.UI.ITEMS_PER_PAGE)
+      .getInventoryLogs(currentFilters, currentPage, 10)
       .then(function (response) {
         if (response.success) {
           currentData = response.data;
@@ -304,7 +322,7 @@ window.InventoryApp = (function ($) {
     const paginationContainer = $("#pagination");
     paginationContainer.empty();
 
-    totalPages = pagination.last_page;
+    totalPages = pagination.total;
     currentPage = pagination.current_page;
 
     // Build pagination HTML
@@ -560,28 +578,37 @@ window.InventoryApp = (function ($) {
 
     // Placeholder methods for features to be implemented
     exportToCsv: function () {
-      showNotification("CSV export functionality will be implemented", "info");
+      this.showNotification(
+        "CSV export functionality will be implemented",
+        "info"
+      );
     },
 
     showStatistics: function () {
-      showNotification("Statistics view will be implemented", "info");
+      this.showNotification("Statistics view will be implemented", "info");
     },
 
     testApiConnection: function () {
+      const self = this;
       api
         .testConnection()
         .then(() =>
-          showNotification(config.MESSAGES.SUCCESS.API_TEST_PASSED, "success")
+          self.showNotification("API connection test passed", "success")
         )
-        .catch(() => showNotification("API connection test failed", "error"));
+        .catch(() =>
+          self.showNotification("API connection test failed", "error")
+        );
     },
 
     toggleTableView: function () {
-      showNotification("Alternative view modes will be implemented", "info");
+      this.showNotification(
+        "Alternative view modes will be implemented",
+        "info"
+      );
     },
 
     viewProductDetails: function (productId) {
-      showNotification(
+      this.showNotification(
         `Product details for ID ${productId} will be implemented`,
         "info"
       );

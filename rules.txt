@@ -1,0 +1,90 @@
+Prueba Técnica Avanzada: Módulo de
+Sincronización de Inventario Crítico
+I. Propósito y Lineamientos Generales
+El objetivo de esta prueba es evaluar la capacidad del candidato para diseñar,
+implementar y documentar una solución full-stack robusta, aplicando buenas prácticas de
+arquitectura, seguridad e integración en un tiempo limitado.
+Tecnología Requerida:
+• Backend/API: Elige Java (con Spring Boot o similar) o PHP (con Laravel o
+CodeIgniter).
+• Base de Datos: MySQL para persistencia de datos.
+• Frontend: HTML5, CSS, JavaScript (uso obligatorio de jQuery para las
+peticiones AJAX).
+• Entrega: Se debe proporcionar la URL de un repositorio Git con un historial de
+commits que refleje el proceso de desarrollo.
+II. El Desafío: API Transaccional y Reporting
+Debe construir una solución que gestione la actualización de inventario de productos y
+proporcione un panel de informes para auditar esos movimientos.
+Fase 1: Backend y Arquitectura (Énfasis: Java/PHP, BBDD, APIs,
+Pruebas)
+1. Implementación de Base de Datos y Optimización
+Diseñe y cree un esquema MySQL con al menos dos tablas:
+• products: Contiene la información principal de los productos (nombre,
+referencia, stock actual).
+• inventory_logs: Registra cada movimiento de stock (ID de producto, stock
+anterior, stock nuevo, fecha, usuario/fuente).
+Requisito Avanzado: Se debe demostrar el uso de índices compuestos y proporcionar
+una justificación en la documentación para la optimización de las consultas de reporting.
+
+2. Desarrollo de la API REST &quot;Stock Update&quot;
+Implemente el endpoint de actualización de stock:
+• Método: PATCH /api/products/{id}/stock
+• Lógica Transaccional: La actualización del stock actual en la tabla products
+y el registro en inventory_logs deben ejecutarse en una única Transacción
+
+ACID. Si falla alguna operación, ambas deben revertirse para garantizar la
+integridad de los datos.
+• Validación: Implemente una validación estricta para asegurar que la cantidad de
+stock a actualizar sea un número entero positivo y que el producto exista.
+3. Arquitectura y Código de Calidad
+• Utilice el patrón Repository/Service para separar la lógica de negocio (capa de
+servicio) de la capa de persistencia (repositorio).
+• El código debe seguir las convenciones de codificación estándar de Java o PHP
+(ej. PSR-12) y demostrar un uso competente de la Programación Orientada a
+Objetos (POO).
+4. Testing (Pruebas Unitarias)
+• Incluya pruebas unitarias (JUnit, PHPUnit) para la capa de servicio que maneja
+la lógica de la actualización de stock y la integridad transaccional. Se requiere una
+cobertura de prueba que demuestre que los casos de éxito y de fallo transaccional
+han sido considerados.
+Fase 2: Frontend y Experiencia de Usuario (Énfasis: UX, Responsive,
+jQuery, Reporting)
+5. Panel de Auditoría de Inventario
+Construya un Panel de Auditoría simple utilizando HTML5 y CSS. Este panel debe ser
+la interfaz principal para visualizar la información.
+6. Consumo de API y Usabilidad
+• Implemente la lógica para consumir un nuevo endpoint de la API (GET
+/api/inventory-logs) que devuelva el historial de movimientos de stock.
+• Utilice AJAX con jQuery para cargar dinámicamente el historial en una tabla
+dentro del panel sin recargar la página.
+• Incluya un formulario simple que permita filtrar el log por rango de fechas o ID
+de producto, demostrando el paso de parámetros a la API.
+7. Diseño Responsive
+• Asegure que el panel de auditoría sea completamente responsive y usable tanto
+en un monitor de escritorio como en un dispositivo móvil, utilizando CSS Grid o
+Flexbox de manera eficiente.
+Fase 3: Integración, Estándares y Documentación (Énfasis: CMS/E-
+commerce, Colaboración)
+8. Integración CMS/E-commerce
+Elija una de estas opciones:
+• Opción A (Prestashop): Integre el Panel de Auditoría (Fase 2) como un Módulo
+funcional dentro del backend de Prestashop. El módulo debe ser instalable y
+accesible desde el menú administrativo.
+
+• Opción B (WordPress): Integre el Panel de Auditoría (Fase 2) como un Plugin o
+Widget funcional dentro del área de administración de WordPress.
+9. Documentación y Colaboración
+• Cree un archivo README.md en Inglés que sirva como documentación técnica
+completa.
+• Contenido Mínimo de la Documentación:
+• Setup Instructions: Instrucciones claras y concisas para la instalación,
+configuración de la BBDD y ejecución de la aplicación.
+• API Specification: Documentación del endpoint PATCH
+/api/products/{id}/stock (método, URL, cuerpo de la
+solicitud/respuesta y códigos de error).
+• Architectural Rationale: Justificación técnica de las decisiones
+arquitectónicas clave (ej. elección del framework, el uso de transacciones
+o el diseño de índices en MySQL).
+
+Requisitos de entrega grabar un video mostrando
+la solución final.

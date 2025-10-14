@@ -118,14 +118,11 @@ body {
   }
 }
 
-/* Header Styles */
+/* Header Styles - Improved Light Theme */
 .header {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color) 0%,
-    var(--primary-dark) 100%
-  );
-  color: var(--white);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  color: var(--gray-800);
+  border: 2px solid var(--primary-color);
   border-radius: var(--radius-lg);
   padding: var(--spacing-2xl);
   margin-bottom: var(--spacing-xl);
@@ -161,12 +158,14 @@ body {
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
   padding: var(--spacing-lg);
   border-radius: var(--radius-md);
   text-align: center;
   min-width: 120px;
+  color: var(--gray-700);
 }
 
 .stat-number {
@@ -279,12 +278,12 @@ body {
 }
 
 .btn-secondary {
-  background: var(--gray-200);
-  color: var(--gray-700);
+  background: var(--gray-600);
+  color: white;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--gray-300);
+  background: var(--gray-700);
 }
 
 .btn-accent {

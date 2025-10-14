@@ -33,6 +33,9 @@ Route::prefix('products')->group(function () {
     Route::patch('/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::put('/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    // CRITICAL REQUIREMENT: Specific stock update endpoint
+    Route::patch('/{id}/stock', [ProductController::class, 'updateStock'])->name('products.update-stock');
 });
 
 // Inventory logs

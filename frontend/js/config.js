@@ -6,7 +6,7 @@
 window.InventoryConfig = {
   // API Configuration
   API: {
-    BASE_URL: "/api", // Change this to your API base URL
+    BASE_URL: "http://localhost:8000/api", // Change this to your API base URL
     ENDPOINTS: {
       PRODUCTS: "/products",
       INVENTORY_LOGS: "/inventory-logs",
@@ -19,8 +19,8 @@ window.InventoryConfig = {
 
   // UI Configuration
   UI: {
-    ITEMS_PER_PAGE: 50,
-    MAX_ITEMS_PER_PAGE: 100,
+    ITEMS_PER_PAGE: 10,
+    MAX_ITEMS_PER_PAGE: 50,
     AUTO_REFRESH_INTERVAL: 300000, // 5 minutes
     ANIMATION_DURATION: 300,
     DEBOUNCE_DELAY: 500,
