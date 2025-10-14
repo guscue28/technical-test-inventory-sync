@@ -495,32 +495,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Update documentation for API changes
 - Use semantic commit messages
 
-## 📞 Support
-
-For technical support or questions:
-
-- **Documentation**: Check this README and inline code comments
-- **Issues**: Create GitHub issue with detailed description
-- **Email**: support@example.com
-
-## 🗺️ Roadmap
-
-### Version 1.1 (Planned)
-
-- [ ] Real-time notifications via WebSockets
-- [ ] Advanced statistics dashboard
-- [ ] Export functionality (CSV, Excel, PDF)
-- [ ] Multi-language support
-
-### Version 1.2 (Future)
-
-- [ ] GraphQL API support
-- [ ] Mobile application
-- [ ] Integration with popular ERPs
-- [ ] Advanced user permissions system
-
----
-
 **Created with ❤️ for the Technical Assessment**
 
 This module demonstrates expertise in full-stack development, database optimization, API design, responsive frontend development, and enterprise-level architecture patterns.

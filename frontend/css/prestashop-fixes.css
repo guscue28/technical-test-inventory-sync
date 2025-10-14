@@ -1,0 +1,469 @@
+/* =====================================================
+   Correcciones para PrestaShop Integration
+   Fixes para espacio completo y contraste de modales
+   ===================================================== */
+
+/* Corrección del contenedor principal para ocupar espacio completo */
+.inventory-panel-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.container {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Eliminar padding/margin de PrestaShop que causa espacios en blanco */
+.prestashop-integration {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.prestashop-integration * {
+  box-sizing: border-box !important;
+}
+
+/* Correcciones para el modal - Enfoque limpio */
+.modal {
+  background: rgba(0, 0, 0, 0.75) !important;
+}
+
+.modal-content {
+  background: #2d3748 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4) !important;
+  width: 480px !important;
+  max-width: 90vw !important;
+  margin: 8% auto !important;
+  border-radius: 8px !important;
+}
+
+.modal-header {
+  background: #1a202c !important;
+  border-bottom: 1px solid #4a5568 !important;
+  color: white !important;
+  padding: 16px 20px !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.modal .modal-header h3 {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  margin: 0 !important;
+}
+
+.modal .modal-header * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.modal .modal-header span {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.modal-close {
+  color: #a0aec0 !important;
+  background: none !important;
+  border: none !important;
+  font-size: 1.2rem !important;
+  cursor: pointer !important;
+}
+
+.modal-close:hover {
+  color: white !important;
+}
+
+.modal-body {
+  background: #2d3748 !important;
+  color: white !important;
+  padding: 20px !important;
+}
+
+/* Formularios en modales - Limpio y legible */
+.modal .form-group {
+  margin-bottom: 16px !important;
+}
+
+.modal .form-group label {
+  color: white !important;
+  font-weight: 500 !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+  font-size: 14px !important;
+}
+
+.modal .form-input,
+.modal input[type="text"],
+.modal input[type="number"] {
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  color: #1f2937 !important;
+  font-size: 14px !important;
+  padding: 10px 12px !important;
+  width: 100% !important;
+  border-radius: 6px !important;
+  box-sizing: border-box !important;
+}
+
+.modal .form-input::placeholder,
+.modal input::placeholder {
+  color: #6b7280 !important;
+}
+
+.modal .form-input:focus,
+.modal input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  outline: none !important;
+}
+
+/* Botones del modal */
+.modal .form-actions {
+  border-top: 1px solid #4a5568 !important;
+  padding: 16px 0 0 0 !important;
+  margin: 20px 0 0 0 !important;
+  display: flex !important;
+  gap: 12px !important;
+  justify-content: flex-end !important;
+}
+
+.modal .btn {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  padding: 10px 20px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  border: none !important;
+}
+
+.modal .btn-primary {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.modal .btn-primary:hover {
+  background: #2563eb !important;
+}
+
+.modal .btn-secondary {
+  background: #6b7280 !important;
+  color: white !important;
+}
+
+.modal .btn-secondary:hover {
+  background: #4b5563 !important;
+}
+
+/* Correcciones para las secciones principales */
+.filters-section,
+.quick-actions,
+.results-section {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: var(--spacing-lg) !important;
+}
+
+/* Corrección específica para el header - reducir tamaño */
+.prestashop-integration .header {
+  margin: 0 !important;
+  margin-bottom: var(--spacing-lg) !important;
+  padding: var(--spacing-lg) !important;
+}
+
+.prestashop-integration .main-title {
+  font-size: 1.8rem !important;
+}
+
+.prestashop-integration .subtitle {
+  font-size: 1rem !important;
+  margin-bottom: var(--spacing-md) !important;
+}
+
+/* Eliminación completa de márgenes del panel de PrestaShop */
+.prestashop-integration #inventory-audit-content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ajuste de la sección de filtros para evitar corte */
+.prestashop-integration .filters-section {
+  margin: 0 !important;
+  border-radius: var(--radius-lg) !important;
+  overflow: visible !important;
+}
+
+.prestashop-integration .filter-group input {
+  width: 100% !important;
+  min-width: 150px !important;
+}
+
+/* Corrección para tabla responsiva */
+.table-container {
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+
+.table {
+  width: 100% !important;
+  min-width: 800px !important;
+}
+
+/* Correcciones para inputs de filtro */
+.filter-group input {
+  background: var(--gray-700) !important;
+  color: var(--white) !important;
+  border: 2px solid var(--gray-600) !important;
+}
+
+.filter-group input::placeholder {
+  color: var(--gray-300) !important;
+}
+
+.filter-group input:focus {
+  background: var(--gray-600) !important;
+  color: var(--white) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Corrección para labels de filtros */
+.filter-group label {
+  color: var(--gray-200) !important;
+  font-weight: 500 !important;
+}
+
+/* Correcciones para el header */
+.header {
+  width: 100% !important;
+  margin: 0 0 var(--spacing-xl) 0 !important;
+}
+
+/* Correcciones específicas para PrestaShop */
+.prestashop-integration .container {
+  max-width: none !important;
+  padding: var(--spacing-sm) !important;
+}
+
+.prestashop-integration .header {
+  margin-bottom: var(--spacing-lg) !important;
+}
+
+.prestashop-integration .filters-section {
+  margin-bottom: var(--spacing-lg) !important;
+}
+
+/* Corrección para textos de error o validación */
+.error-message,
+.validation-error {
+  background: var(--danger-color) !important;
+  color: var(--white) !important;
+  border: 1px solid var(--danger-color) !important;
+}
+
+/* Corrección para badges y etiquetas */
+.badge {
+  font-weight: 600 !important;
+}
+
+.badge-primary {
+  background: var(--primary-color) !important;
+  color: var(--white) !important;
+}
+
+.badge-success {
+  background: var(--success-color) !important;
+  color: var(--white) !important;
+}
+
+.badge-warning {
+  background: var(--warning-color) !important;
+  color: var(--white) !important;
+}
+
+.badge-danger {
+  background: var(--danger-color) !important;
+  color: var(--white) !important;
+}
+
+/* Corrección para paginación */
+.pagination-btn {
+  background: var(--gray-700) !important;
+  color: var(--white) !important;
+  border: 1px solid var(--gray-600) !important;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--gray-600) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.pagination-btn.active {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--white) !important;
+}
+
+/* Corrección para vista móvil */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-xs) !important;
+  }
+
+  .modal-content {
+    width: 95% !important;
+    margin: 5% auto !important;
+    max-height: 90vh !important;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 16px !important;
+  }
+
+  .modal .form-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .modal .btn {
+    width: 100% !important;
+  }
+}
+
+/* Ajustes adicionales para el tamaño del modal */
+@media (min-width: 769px) {
+  .modal-content {
+    width: 480px !important;
+    max-width: 90vw !important;
+  }
+}
+
+/* Correcciones adicionales para eliminar espaciado de PrestaShop */
+.prestashop-integration .inventory-panel-wrapper {
+  overflow: visible !important;
+}
+
+/* Modal clean - sin reglas universales agresivas */
+
+/* Regla específica para eliminar fondo blanco del título */
+.modal-header [style*="background"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.modal-header div,
+.modal-header span,
+.modal-header p {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Específico para el ID del título del modal */
+#editModalTitle {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.modal #editModalTitle {
+  background: none !important;
+  background-color: transparent !important;
+  color: white !important;
+}
+
+/* Override de estilos de PrestaShop que causan problemas */
+.prestashop-integration .panel {
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.prestashop-integration .panel-body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Asegurar que el contenido use todo el ancho */
+.prestashop-integration * {
+  max-width: none !important;
+}
+
+/* Corrección específica para evitar que los filtros se corten */
+.prestashop-integration .filters-form {
+  overflow: visible !important;
+}
+
+.prestashop-integration .filter-group {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* Corrección para select y otros elementos de formulario */
+.modal select.form-input {
+  background: var(--white) !important;
+  color: var(--gray-800) !important;
+  border: 1px solid var(--gray-300) !important;
+}
+
+.modal select.form-input option {
+  background: var(--white) !important;
+  color: var(--gray-800) !important;
+}
+
+.modal textarea.form-input {
+  background: var(--white) !important;
+  color: var(--gray-800) !important;
+  border: 1px solid var(--gray-300) !important;
+}
+
+.modal textarea.form-input:focus {
+  background: var(--white) !important;
+  color: var(--gray-800) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Corrección para evitar scroll horizontal */
+body,
+html {
+  overflow-x: hidden !important;
+}
+
+.inventory-panel-wrapper {
+  overflow-x: hidden !important;
+}
+
+/* Corrección para select elements si los hay */
+select.form-input {
+  background: var(--gray-700) !important;
+  color: var(--white) !important;
+  border: 2px solid var(--gray-600) !important;
+}
+
+select.form-input option {
+  background: var(--gray-700) !important;
+  color: var(--white) !important;
+}
+
+/* Corrección para textarea si los hay */
+textarea.form-input {
+  background: var(--gray-700) !important;
+  color: var(--white) !important;
+  border: 2px solid var(--gray-600) !important;
+  resize: vertical !important;
+}
+
+textarea.form-input:focus {
+  background: var(--gray-600) !important;
+  color: var(--white) !important;
+}

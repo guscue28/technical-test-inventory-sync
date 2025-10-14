@@ -176,11 +176,11 @@ cms-integration/wordpress/wp-config.php
 cms-integration/wordpress/uploads/
 cms-integration/wordpress/cache/
 
-# PrestaShop
-cms-integration/prestashop/config/
-cms-integration/prestashop/cache/
-cms-integration/prestashop/img/
-cms-integration/prestashop/upload/
+# PrestaShop - Ignore full installation but keep our module
+cms-integration/prestashop/*
+!cms-integration/prestashop/modules/
+cms-integration/prestashop/modules/*
+!cms-integration/prestashop/modules/inventoryaudit/
 
 # =====================================================
 # Documentation Build

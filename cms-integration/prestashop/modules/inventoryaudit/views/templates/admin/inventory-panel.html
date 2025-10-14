@@ -1,0 +1,351 @@
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>Loading inventory data...</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-content">
+          <h1 class="main-title">
+            <i class="icon-inventory"></i>
+            Inventory Audit Panel
+          </h1>
+          <p class="subtitle">Critical Inventory Synchronization Module</p>
+          <div class="header-stats">
+            <div class="stat-card">
+              <span class="stat-number" id="totalLogs">0</span>
+              <span class="stat-label">Total Products</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Filters Section -->
+      <section class="filters-section">
+        <div class="filters-container">
+          <h2 class="section-title">
+            <i class="icon-filter"></i>
+            Filters & Search
+          </h2>
+
+          <form id="filtersForm" class="filters-form">
+            <!-- Product Filters (visible when Products tab is active) -->
+            <div
+              id="productFilters"
+              class="filter-group-set"
+              style="display: none"
+            >
+              <div class="filter-group">
+                <label for="search">Search Products</label>
+                <input
+                  type="text"
+                  id="search"
+                  name="search"
+                  placeholder="Search by name or reference..."
+                />
+              </div>
+
+              <div class="filter-group">
+                <label for="minStock">Min Stock</label>
+                <input
+                  type="number"
+                  id="minStock"
+                  name="min_stock"
+                  placeholder="Minimum stock"
+                  min="0"
+                />
+              </div>
+
+              <div class="filter-group">
+                <label for="maxStock">Max Stock</label>
+                <input
+                  type="number"
+                  id="maxStock"
+                  name="max_stock"
+                  placeholder="Maximum stock"
+                  min="0"
+                />
+              </div>
+            </div>
+
+            <!-- Log Filters (visible when Logs tab is active) -->
+            <div id="logFilters" class="filter-group-set">
+              <div class="filter-group">
+                <label for="searchLogs">Search Logs</label>
+                <input
+                  type="text"
+                  id="searchLogs"
+                  name="search_logs"
+                  placeholder="Search by product or source..."
+                />
+              </div>
+
+              <div class="filter-group">
+                <label for="dateFrom">From Date</label>
+                <input type="date" id="dateFrom" name="date_from" />
+              </div>
+
+              <div class="filter-group">
+                <label for="dateTo">To Date</label>
+                <input type="date" id="dateTo" name="date_to" />
+              </div>
+            </div>
+
+            <div class="filter-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="icon-search"></i>
+                Apply Filters
+              </button>
+              <button type="button" id="clearFilters" class="btn btn-secondary">
+                <i class="icon-clear"></i>
+                Clear All
+              </button>
+              <button type="button" id="refreshData" class="btn btn-accent">
+                <i class="icon-refresh"></i>
+                Refresh
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section class="quick-actions">
+        <div class="actions-container">
+          <div class="actions-grid">
+            <button id="createProduct" class="action-btn">
+              <i class="icon-add"></i>
+              Create Product
+            </button>
+            <!-- <button id="exportCsv" class="action-btn">
+              <i class="icon-download"></i>
+              Export CSV
+            </button>
+            <button id="viewStats" class="action-btn">
+              <i class="icon-stats"></i>
+              View Statistics
+            </button>
+            <button id="testApi" class="action-btn">
+              <i class="icon-test"></i>
+              Test API Connection
+            </button> -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="results-section">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+          <button id="productsTab" class="tab-btn active" data-tab="products">
+            <i class="icon-package"></i>
+            Products
+          </button>
+          <button id="logsTab" class="tab-btn" data-tab="logs">
+            <i class="icon-list"></i>
+            Inventory Logs
+          </button>
+        </div>
+
+        <!-- Products Tab Content -->
+        <div id="productsTabContent" class="tab-content active">
+          <div class="results-header">
+            <h2 class="section-title">
+              <i class="icon-package"></i>
+              Product Inventory
+            </h2>
+            <div class="results-meta">
+              <span id="productsCount">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Error Message for Products -->
+          <div
+            id="productsErrorMessage"
+            class="error-message"
+            style="display: none"
+          >
+            <i class="icon-warning"></i>
+            <span id="productsErrorText"
+              >An error occurred while loading products.</span
+            >
+            <button id="retryLoadProducts" class="btn btn-small">Retry</button>
+          </div>
+
+          <!-- Products Table -->
+          <div id="productsTableView" class="table-container">
+            <table id="productsTable" class="logs-table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="id">ID</th>
+                  <th class="sortable" data-sort="name">Product Name</th>
+                  <th class="sortable" data-sort="reference">Reference</th>
+                  <th class="text-right">Current Stock</th>
+                  <th class="sortable" data-sort="updated_at">Last Updated</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <!-- Data will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Products Pagination -->
+          <div id="productsPagination" class="pagination-container">
+            <!-- Pagination will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Logs Tab Content -->
+        <div id="logsTabContent" class="tab-content">
+          <div class="results-header">
+            <h2 class="section-title">
+              <i class="icon-list"></i>
+              Inventory Movement Logs
+            </h2>
+            <div class="results-meta">
+              <span id="resultsCount">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Error Message for Logs -->
+          <div id="errorMessage" class="error-message" style="display: none">
+            <i class="icon-warning"></i>
+            <span id="errorText">An error occurred while loading data.</span>
+            <button id="retryLoad" class="btn btn-small">Retry</button>
+          </div>
+
+          <!-- Logs Table -->
+          <div id="tableView" class="table-container">
+            <table id="logsTable" class="logs-table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="id">Log ID</th>
+                  <th class="sortable" data-sort="created_at">Date & Time</th>
+                  <th class="sortable" data-sort="product_name">Product</th>
+                  <th class="text-right">Previous Stock</th>
+                  <th class="text-right">New Stock</th>
+                  <th class="text-center">Change</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="logsTableBody">
+                <!-- Data will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Logs Pagination -->
+          <div id="pagination" class="pagination-container">
+            be populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Modal for Statistics -->
+    <div id="statsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Inventory Statistics</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="statsContent">
+          <!-- Statistics content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Product Details -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Product Details</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="productContent">
+          <!-- Product details will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Edit/Create Product -->
+    <div id="editProductModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="editModalTitle">Edit Product</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="editProductForm">
+            <input type="hidden" id="editProductId" />
+
+            <div class="form-group">
+              <label for="editProductName">Product Name</label>
+              <input
+                type="text"
+                id="editProductName"
+                name="name"
+                required
+                class="form-input"
+                placeholder="Enter product name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editProductReference">Reference</label>
+              <input
+                type="text"
+                id="editProductReference"
+                name="reference"
+                class="form-input"
+                placeholder="Enter product reference"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editProductStock">Current Stock</label>
+              <input
+                type="number"
+                id="editProductStock"
+                name="stock"
+                required
+                class="form-input"
+                placeholder="Enter stock quantity"
+                min="0"
+              />
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="InventoryApp.closeEditModal()"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <span id="saveButtonText">Save Changes</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Initialize App -->
+    <script>
+      $(document).ready(function () {
+        InventoryApp.init();
+      });
+    </script>
