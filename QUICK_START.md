@@ -28,6 +28,9 @@ php artisan serve
 ```bash
 cd frontend
 python3 -m http.server 8080
+# or
+npm install -g live-server
+live-server --port=8080
 # ✅ Frontend: http://localhost:8080
 ```
 

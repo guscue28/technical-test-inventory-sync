@@ -167,7 +167,7 @@ window.InventoryApp = (function ($) {
     }
 
     return api
-      .getInventoryLogs(currentFilters, currentPage, 10)
+      .getInventoryLogs(currentFilters, currentPage, config.UI.ITEMS_PER_PAGE)
       .then(function (response) {
         if (response.success) {
           currentData = response.data;
@@ -191,6 +191,9 @@ window.InventoryApp = (function ($) {
         const processedError = api.processError(error);
         showError(processedError.message);
         showNotification(processedError.message, "error");
+
+        // Update results count to show error state
+        $("#resultsCount").text("Error loading data");
       })
       .finally(function () {
         isLoading = false;
@@ -322,7 +325,8 @@ window.InventoryApp = (function ($) {
     const paginationContainer = $("#pagination");
     paginationContainer.empty();
 
-    totalPages = pagination.total;
+    // Use the last_page provided by Laravel pagination
+    totalPages = pagination.last_page || 1;
     currentPage = pagination.current_page;
 
     // Build pagination HTML
@@ -404,6 +408,17 @@ window.InventoryApp = (function ($) {
    */
   function updateStatsSummary(pagination) {
     $("#totalLogs").text(pagination.total || 0);
+
+    // Update results count display
+    const from = pagination.from || 0;
+    const to = pagination.to || 0;
+    const total = pagination.total || 0;
+
+    if (total === 0) {
+      $("#resultsCount").text("No results found");
+    } else {
+      $("#resultsCount").text(`Showing ${from} to ${to} of ${total} entries`);
+    }
 
     // Get today's changes (this would need additional API call in real implementation)
     $("#todayChanges").text("--");

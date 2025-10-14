@@ -173,6 +173,7 @@ body {
   font-size: 2rem;
   font-weight: 700;
   line-height: 1;
+  color: white;
 }
 
 .stat-label {
@@ -180,6 +181,7 @@ body {
   font-size: 0.875rem;
   opacity: 0.8;
   margin-top: var(--spacing-xs);
+  color: white;
 }
 
 /* Section Styles */
@@ -228,13 +230,20 @@ body {
   border-radius: var(--radius-md);
   font-size: 1rem;
   transition: all var(--transition-fast);
-  background: var(--white);
+  background: var(--gray-700);
+  color: var(--white);
+}
+
+.filter-group input::placeholder {
+  color: white;
 }
 
 .filter-group input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  background: var(--gray-600);
+  color: white;
 }
 
 .filter-actions {

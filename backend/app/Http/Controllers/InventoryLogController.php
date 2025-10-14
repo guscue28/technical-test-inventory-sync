@@ -38,7 +38,7 @@ class InventoryLogController extends Controller
                 'user_source' => $validated['user_source'] ?? null,
             ]);
 
-            $perPage = $validated['per_page'] ?? 50;
+            $perPage = $validated['per_page'] ?? 10;
 
             $logs = $this->inventoryService->getInventoryLogs($filters, $perPage);
 
