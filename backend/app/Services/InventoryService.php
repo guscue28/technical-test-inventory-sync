@@ -30,10 +30,24 @@ class InventoryService
     }
 
     /**
+     * Get products with filters and pagination
+     */
+    public function getProducts(array $filters = [], int $page = 1, int $perPage = 50): array
+    {
+        return $this->productRepository->getFiltered($filters, $page, $perPage);
+    }
+
+    /**
      * Update product stock with ACID transaction
      */
     public function updateProductStock(int $productId, int $newStock, string $userSource = 'system'): array
     {
+        \Log::info('updateProductStock called', [
+            'productId' => $productId,
+            'newStock' => $newStock,
+            'userSource' => $userSource
+        ]);
+
         // Validation
         if ($newStock < 0) {
             throw ValidationException::withMessages([
@@ -46,6 +60,8 @@ class InventoryService
         try {
             // Find product
             $product = $this->productRepository->findById($productId);
+            \Log::info('Product found', ['product' => $product]);
+
             $previousStock = $product->current_stock;
 
             // Update product stock
@@ -63,15 +79,22 @@ class InventoryService
 
             DB::commit();
 
-            return [
+            $result = [
                 'success' => true,
                 'product' => $product->fresh(),
                 'log' => $log,
                 'change_amount' => $newStock - $previousStock
             ];
 
+            \Log::info('updateProductStock result', ['result' => $result]);
+            return $result;
+
         } catch (Exception $e) {
             DB::rollBack();
+            \Log::error('updateProductStock error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             throw new Exception('Failed to update stock: ' . $e->getMessage());
         }
     }

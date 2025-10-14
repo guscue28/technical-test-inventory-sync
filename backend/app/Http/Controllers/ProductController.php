@@ -18,19 +18,57 @@ class ProductController extends Controller
     }
 
     /**
-     * Get all products
+     * Get all products with pagination and filters
      * GET /api/products
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $products = $this->inventoryService->getAllProducts();
+            // Validation for query parameters
+            $validated = $request->validate([
+                'page' => 'sometimes|integer|min:1',
+                'per_page' => 'sometimes|integer|min:1|max:100',
+                'search' => 'sometimes|string|max:255',
+                'name' => 'sometimes|string|max:255',
+                'reference' => 'sometimes|string|max:100',
+                'min_stock' => 'sometimes|integer|min:0',
+                'max_stock' => 'sometimes|integer|min:0',
+            ]);
+
+            // Build filters array
+            $filters = [];
+            if (isset($validated['search'])) {
+                $filters['search'] = $validated['search'];
+            }
+            if (isset($validated['name'])) {
+                $filters['name'] = $validated['name'];
+            }
+            if (isset($validated['reference'])) {
+                $filters['reference'] = $validated['reference'];
+            }
+            if (isset($validated['min_stock'])) {
+                $filters['min_stock'] = $validated['min_stock'];
+            }
+            if (isset($validated['max_stock'])) {
+                $filters['max_stock'] = $validated['max_stock'];
+            }
+
+            $page = $validated['page'] ?? 1;
+            $perPage = $validated['per_page'] ?? 50;
+
+            $result = $this->inventoryService->getProducts($filters, $page, $perPage);
 
             return response()->json([
                 'success' => true,
-                'data' => $products,
-                'count' => count($products)
+                'data' => $result['data'],
+                'pagination' => $result['pagination']
             ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -76,9 +114,14 @@ class ProductController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'reference' => 'required|string|max:100|unique:products,reference',
+                'reference' => 'nullable|string|max:100|unique:products,reference',
                 'current_stock' => 'required|integer|min:0'
             ]);
+
+            // Set default reference if empty
+            if (empty($validated['reference'])) {
+                $validated['reference'] = 'REF-' . time();
+            }
 
             $product = $this->inventoryService->createProduct($validated);
 
@@ -110,13 +153,44 @@ class ProductController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
-                'reference' => 'sometimes|string|max:100|unique:products,reference,' . $id,
+                'reference' => 'sometimes|nullable|string|max:100|unique:products,reference,' . $id,
                 'current_stock' => 'sometimes|integer|min:0'
+            ]);
+
+            \Log::info('Update product request', [
+                'product_id' => $id,
+                'validated' => $validated,
+                'request_data' => $request->all()
             ]);
 
             $userSource = $request->input('user_source', 'api');
 
-            // If updating stock, use the inventory service for proper logging
+            $product = null;
+
+            // First update basic fields (name, reference)
+            $basicFields = array_diff_key($validated, ['current_stock' => '']);
+            \Log::info('Basic fields to update', ['basicFields' => $basicFields]);
+
+            if (!empty($basicFields)) {
+                try {
+                    $product = $this->inventoryService->updateProduct($id, $basicFields);
+                    \Log::info('Product updated with basic fields', ['product' => $product]);
+                    if (!$product) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Product not found'
+                        ], 404);
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('Error updating basic fields', [
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                    throw $e;
+                }
+            }
+
+            // Then update stock if provided
             if (isset($validated['current_stock'])) {
                 $result = $this->inventoryService->updateProductStock(
                     $id,
@@ -128,19 +202,17 @@ class ProductController extends Controller
                     return response()->json($result, 404);
                 }
 
-                return response()->json($result);
+                // Format the response to match our API structure
+                $responseData = [
+                    'success' => true,
+                    'data' => $result['product'],
+                    'message' => 'Product updated successfully'
+                ];
+
+                return response()->json($responseData);
             }
 
-            // For other fields, update directly
-            $product = $this->inventoryService->updateProduct($id, $validated);
-
-            if (!$product) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Product not found'
-                ], 404);
-            }
-
+            // If only basic fields were updated
             return response()->json([
                 'success' => true,
                 'data' => $product,

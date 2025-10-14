@@ -796,3 +796,94 @@ body {
   border-top: 1px solid var(--gray-200);
   margin-top: var(--spacing-lg);
 }
+
+/* =====================================================
+   Tab Navigation Styles
+   ===================================================== */
+
+.tab-navigation {
+  display: flex;
+  gap: 2px;
+  background: var(--gray-200);
+  border-radius: var(--border-radius-md);
+  padding: 4px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  background: transparent;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.tab-btn:hover {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.tab-btn.active {
+  background: var(--white);
+  color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn i {
+  font-size: 1rem;
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Filter Groups */
+.filter-group-set {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  width: 100%;
+  align-items: end;
+}
+
+.filter-group-set .filter-group {
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments for filters */
+@media (max-width: 768px) {
+  .filter-group-set {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .filter-group-set {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .filter-group-set {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Ensure consistent height for all filter inputs */
+.filter-group-set .filter-group input {
+  height: 42px;
+}

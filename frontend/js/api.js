@@ -290,6 +290,37 @@ window.InventoryAPI = (function ($) {
     },
 
     /**
+     * Get products with filters and pagination
+     */
+    getProducts: function (
+      filters = {},
+      page = 1,
+      perPage = config.UI.ITEMS_PER_PAGE
+    ) {
+      const params = {
+        ...filters,
+        page: page,
+        per_page: perPage,
+      };
+
+      // Remove empty parameters
+      Object.keys(params).forEach((key) => {
+        if (
+          params[key] === "" ||
+          params[key] === null ||
+          params[key] === undefined
+        ) {
+          delete params[key];
+        }
+      });
+
+      return makeRequest({
+        url: config.API.ENDPOINTS.PRODUCTS,
+        params: params,
+      });
+    },
+
+    /**
      * Get product logs
      */
     getProductLogs: function (productId, limit = 20) {
@@ -369,6 +400,14 @@ window.InventoryAPI = (function ($) {
      * Update existing product
      */
     updateProduct: function (productId, productData) {
+      console.log("=== API UPDATE PRODUCT DEBUG ===");
+      console.log("Product ID received:", productId);
+      console.log("Product Data:", productData);
+      console.log(
+        "Generated URL:",
+        `${config.API.ENDPOINTS.PRODUCTS}/${productId}`
+      );
+
       return makeRequest({
         url: `${config.API.ENDPOINTS.PRODUCTS}/${productId}`,
         method: "PUT",
